@@ -8,14 +8,12 @@ import time
 
 RSS_FEEDS = [
     "https://www.pravda.com.ua/rss/",
-    "https://nv.ua/ukr/rss/all.xml",
-    "https://www.ukrinform.ua/rss",
     "https://www.epravda.com.ua/rss/"
 ]
 
 MONGO_URI = "mongodb://localhost:27017"
 DB_NAME = "news_database"
-COLLECTION_NAME = "articles"
+COLLECTION_NAME = "raw_articles"
 SLEEP_BETWEEN_REQUESTS = 1  # сек
 
 # ==== 2. Підключення до MongoDB ====
