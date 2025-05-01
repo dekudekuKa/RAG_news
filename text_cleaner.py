@@ -4,17 +4,14 @@ from bson.objectid import ObjectId
 import stanza
 import datetime
 
-# 🔹 Підключення до MongoDB
 client = MongoClient("mongodb://localhost:27017")
 db = client["news_database"]
 raw_collection = db["raw_articles"]
 clean_collection = db["clean_articles"]
 
-# 🔹 Завантаження української NLP моделі
 stanza.download('uk')  # тільки при першому запуску
 nlp = stanza.Pipeline('uk', processors='tokenize,mwt,pos,lemma', use_gpu=False)
 
-# 🔹 Власні стоп-слова
 ukrainian_stopwords = {
     'і', 'в', 'у', 'та', 'на', 'з', 'що', 'це', 'до', 'по', 'я', 'ми', 'ви', 'вони',
     'про', 'як', 'за', 'від', 'для', 'не', 'а', 'але', 'ще', 'бути', 'такий', 'ж',
@@ -23,7 +20,6 @@ ukrainian_stopwords = {
     'чому', 'де', 'із', 'над', 'під', 'об', 'тощо', 'щоб', 'саме'
 }
 
-# 🔹 Функція очищення й лематизації
 def clean_text(text):
     text = re.sub(r"[^А-Яа-яЇїІіЄєҐґ\s]", " ", text)
     text = re.sub(r"\s+", " ", text).strip()
@@ -39,7 +35,6 @@ def clean_text(text):
 
     return " ".join(lemmas), lemmas  # і строка, і список токенів
 
-# 🔹 Основна обробка
 def process_articles():
     raw_docs = raw_collection.find()
     count = 0
